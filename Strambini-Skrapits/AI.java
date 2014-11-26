@@ -6,11 +6,11 @@ public class AI
 {
 	public Move getBestMove(GameBoard gameBoard, int depth, int playerID)
 	{
-		
+
 	}
-	
-	private double alphabeta(GameBoard gameboard, int depth, int minOrMax, 
+
+	private double alphabeta(GameBoard gameboard, int depth, int minOrMax)
 	{
-		
+
 	}
 }
