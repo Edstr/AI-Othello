@@ -1,4 +1,4 @@
-package Participants.....;
+package Participants.StrambiniSkrapits;
 
 import java.util.ArrayList;
 

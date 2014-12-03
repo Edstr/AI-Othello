@@ -1,4 +1,4 @@
-package Participants.Strambini-Skrapits;
+package Participants.StrambiniSkrapits;
 
 import Othello.Move;
 
