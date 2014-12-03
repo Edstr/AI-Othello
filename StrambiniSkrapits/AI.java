@@ -24,22 +24,24 @@ public class AI
 
 		Node node = new Node(null);
 		node.setEvaluation(0);
-		alphabeta(node, depth, MAX, 0);
+		alphabeta(gameBoard, node, depth, MAX, 0);
 
 		//ArrayList<Move> moves = gameBoard.getPossibleMoves(playerID);
 		return node.getMove();
 	}
 
-	private static void alphabeta(Node root, int depth, int minOrMax, int parentValue)
+	private static void alphabeta(GameBoard gameBoard, Node root, int depth, int minOrMax, int parentValue)
 	{
-		int optVal;
+		gameBoard.displayGameBoard();
+				
+		GameBoard nextGameBoard;
 		Move optOp = null;
 		Node newMove;
 		int val = 0;
+		int optVal;
 
-		GameBoard gameBoard;
-		ArrayList<Move> moves = _gameBoard.getPossibleMoves(_playerID);
-
+		// Si feuille ou plus de coups valables, arrêter.
+		ArrayList<Move> moves = gameBoard.getPossibleMoves(_playerID);
 		boolean isFinal = moves.size() == 0;
 		if (depth == 0 || isFinal)
 			return;
@@ -47,14 +49,16 @@ public class AI
 		optVal = minOrMax * -10000;
 		for (Move op : moves)
 		{
-			gameBoard = _gameBoard.clone();
-			gameBoard.addCoin(op, _playerID);
+			nextGameBoard = gameBoard.clone();
+			nextGameBoard.addCoin(op, _playerID);
 
 			newMove = new Node(op);
 			newMove.setEvaluation(getForce(op));
 			root.addChildNode(newMove);
 
-			alphabeta(newMove, depth - 1, -minOrMax, optVal);
+			alphabeta(nextGameBoard, newMove, depth - 1, -minOrMax, optVal);
+
+			val = newMove.getEvaluation();
 
 			if (val * minOrMax > optVal * minOrMax)
 			{
