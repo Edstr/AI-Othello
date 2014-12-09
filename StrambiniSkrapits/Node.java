@@ -1,44 +1,64 @@
 package Participants.StrambiniSkrapits;
 
 import java.util.ArrayList;
-
 import Othello.Move;
-/***
- * TreeNode containing a Game state with his evaluation and his child nodes (possible actions at the current state)
- * @author Ellenberger Patrick and Moll Adrian
- *
+
+/**
+ * Tree node class
+ * @author Cyriaque Skrapits
+ * @author Eddy Strambini
  */
 public class Node {
-	
-	private ArrayList<Node> childNodeList;
-	private int evaluation;
+	private GameBoard gameBoard;
 	private Move move;
-	public String name;
-	/**
-	 * 
-	 * @param evaluation evaluation of this state
-	 * @param move movement achieved to reach this state
-	 */
 
-	private static int cmpt = 0;
-	public Node(Move move)
+	/**
+	 * Constructor
+	 * @param gameBoard GameBoard to work on.
+	 * @param move Move to play.
+	 */
+	public Node(GameBoard gameBoard, Move move)
 	{
-		this.evaluation = 0;
+		this.gameBoard = gameBoard;
 		this.move = move;
-		childNodeList = new ArrayList<Node>();
-		
-		
-		this.name = "e"+(++cmpt);
-		// Calculate initial evaluation
 	}
 	
-	public void setEvaluation(int evaluation)
+	/**
+	 * Apply a move and return the result as a new child node.
+	 * @param move Move to play.
+	 * @param player Player who plays the move.
+	 */
+	public Node apply(Move move, int player) {
+		this.move = move;
+		GameBoard newBoard = this.gameBoard.clone();
+		newBoard.addCoin(move, player);
+		return new Node(newBoard, move);
+	}
+
+	/**
+	 * Evaluation function
+	 * @param move Move to play.
+	 * @param player Player who plays the move.
+	 */
+	public int eval(Move move, int player)
 	{
-		this.evaluation = evaluation;
-	}	
-	public int getEvaluation()
+		int opponent = 1 - player;
+
+		if (gameBoard.getEdgeCoinCount(opponent) > gameBoard.getEdgeCoinCount(player))
+			return Strategies.getValue4(move, Strategies.POSITIONAL);
+
+		return Strategies.getValue4(move, Strategies.EDGAR);
+	}
+
+	public boolean isFinal(int player)
 	{
-		return evaluation;
+		return (gameBoard.getCoinCount(player) + gameBoard.getCoinCount(1 - player) == 64 ||
+			this.ops(player).size() == 0);
+	}
+
+	public ArrayList<Move> ops(int player)
+	{
+		return this.gameBoard.getPossibleMoves(player);
 	}
 	
 	public Move getMove()
@@ -50,28 +70,4 @@ public class Node {
 	{
 		this.move = move;
 	}
-	
-	public ArrayList<Node> getChildNodeList()
-	{
-		return childNodeList;
-	}
-	
-	/***
-	 * Adding a movement to the current state
-	 * @param childNode possible movement at the current state
-	 */
-	public void addChildNode(Node childNode)
-	{
-		this.childNodeList.add(childNode);
-	}
-	
-	/**
-	 * Test if Node is a leaf node
-	 * @return
-	 */
-	public boolean isLeaf()
-	{
-		return childNodeList.size()==0;
-	}
-
 }
