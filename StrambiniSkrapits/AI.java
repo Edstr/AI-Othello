@@ -3,6 +3,12 @@ package Participants.StrambiniSkrapits;
 import java.util.ArrayList;
 import Othello.Move;
 
+
+/**
+ * AI class containing the Alpha Beta pruning.
+ * @author Cyriaque Skrapits
+ * @author Eddy Strambini
+ */
 public class AI
 {
 	private static int MIN = -1;
@@ -10,6 +16,10 @@ public class AI
 	private static GameBoard _gameBoard;
 	private static int _player;
 
+
+	/**
+	 * Sub class containing the elements returned by the Alpha Beta pruning.
+	 */
 	static class AlphaBeta
 	{
 		public int value = 0;
@@ -34,9 +44,10 @@ public class AI
 
 	/**
 	 * Alpha beta pruning algorithm
-	 * @param root Root node
+	 * @param root Root node.
 	 * @param depth How deep the alpha beta has to search.
-	 * @param minOrMax Define if the function 
+	 * @param minOrMax Define if the function is in the MAX or MIN pass.
+	 * @return Best move.
 	 */
 	private static AlphaBeta alphabeta(Node root, int depth, int minOrMax, int parentValue)
 	{
@@ -46,21 +57,22 @@ public class AI
 		int val;
 		int optVal;
 
+		// Find current player.
 		int player = minOrMax == MAX ? _player : 1 - _player;
 
-
-		if ((depth == 0 || root.isFinal(_player)) && root.getMove() != null)
+		// Return evaluation function if it's over.
+		if ((depth == 0 || root.isFinal(_player)))
 			return new AlphaBeta(root.eval(root.getMove(), player), null);
 
-		optVal = minOrMax * -1000000; //Integer.MAX_VALUE;
+		optVal = minOrMax * -Integer.MAX_VALUE;
 		for (Move op : root.ops(player))
 		{
-			newNode = root.apply(op, player);
+			newNode = root.apply(op, player); // Apply the operation and return the result.
 
 			ab = alphabeta(newNode, depth - 1, -minOrMax, optVal);
 			val = ab.value;
 
-			if (val * minOrMax > optVal * minOrMax)
+			if (val * minOrMax >= optVal * minOrMax)
 			{
 				optVal = val;
 				optOp = op;

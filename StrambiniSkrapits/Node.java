@@ -42,14 +42,12 @@ public class Node {
 	 */
 	public int eval(Move move, int player)
 	{
-		///int opponent = 1 - player;
-
 		int evaluation = 0;
 		evaluation = 10 * Strategies.pieceDifference(gameBoard, player);
 		evaluation += 802 * Strategies.cornerOccupancy(gameBoard, player);
 		evaluation += 382 * Strategies.cornerCloseness(gameBoard, player);
 		evaluation += 78 * Strategies.mobility(gameBoard, player);
-		evaluation += 74 * Strategies.frontierDiscs(gameBoard, player);
+		evaluation += 74 * Strategies.frontierDiscs(gameBoard, player) * 7;
 		evaluation += 10 * Strategies.discSquares(gameBoard, player);
 		return -evaluation;
 

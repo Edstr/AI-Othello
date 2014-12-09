@@ -6,9 +6,9 @@ import Othello.Move;
 
 /**
  * Contains the state of the game (coins position)
+ * Modified by Cyriaque Skrapits and Eddy Strambini.
  * 
  * @author Ellenberger Patrick and Moll Adrian
- * 
  */
 public class GameBoard {
 
@@ -177,6 +177,12 @@ public class GameBoard {
 		return n;
 	}
 
+	/**
+	 * Count the number of coins apart from the others of a player.
+	 *
+	 * @param playerID Player who has these coins.
+	 * @return Number of coins apart.
+	 */
 	public int getApartCoinCount(int playerID)
 	{
 		int opponent = 1 - playerID;
@@ -193,6 +199,13 @@ public class GameBoard {
 		return count;
 	}
 
+	/**
+	 * Check if a coin isn't surrounded by a type of coin.
+	 *
+	 * @param i Line
+	 * @param j Column
+	 * @param surrounder Type of coin
+	 */
 	public boolean isNotSurroundedBy(int i, int j, int surrounder)
 	{
 		int surrounders = 0;
@@ -201,10 +214,10 @@ public class GameBoard {
 		surrounders += getPlayerIDAtPos(i - 1, j    ) == surrounder ? 1 : 0;
 		surrounders += getPlayerIDAtPos(i - 1, j + 1) == surrounder ? 1 : 0;
 		surrounders += getPlayerIDAtPos(i    , j - 1) == surrounder ? 1 : 0;
-		surrounders += getPlayerIDAtPos(i    , j - 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i    , j + 1) == surrounder ? 1 : 0;
 		surrounders += getPlayerIDAtPos(i + 1, j - 1) == surrounder ? 1 : 0;
 		surrounders += getPlayerIDAtPos(i + 1, j    ) == surrounder ? 1 : 0;
-		surrounders += getPlayerIDAtPos(i + 1, j    ) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i + 1, j + 1) == surrounder ? 1 : 0;
 
 		return surrounders == 0;
 	}

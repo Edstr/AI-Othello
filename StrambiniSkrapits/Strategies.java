@@ -2,8 +2,17 @@ package Participants.StrambiniSkrapits;
 
 import Othello.Move;
 
+/**
+ * Class containing strategics methods.
+ * All the methods above were taken from http://mkorman.org/othello.pdf.
+ * @author Cyriaque Skrapits
+ * @author Eddy Strambini
+ */
 public class Strategies
 {
+	/*
+	 * Matrixes
+	 */
 	public final static int[][] POSITIONAL = {
 		{99,  -8,  8,  6},
 		{-8, -24, -4, -3},
@@ -33,6 +42,7 @@ public class Strategies
 		{  16,  16,  0,   0}
 	};
 
+	// Taken from http://mkorman.org/othello.pdf
 	public final static int[][] DISCSQUARES = {
 		{20, -3, 11,  8},
 		{-3, -7, -4,  1},
@@ -40,6 +50,16 @@ public class Strategies
 		{ 8,  1,  2, -3}
 	};
 
+
+	/*
+	 * Matrix access methods
+	 */
+
+	/**
+	 * Return the value from a 4x4 matrix.
+	 * @param move Position in the matrix.
+	 * @return value Value in the matrix.
+	 */
 	public static int getValue4(Move move, int[][] matrix)
 	{
 		int i = move.i;
@@ -54,6 +74,12 @@ public class Strategies
 		return matrix[i][j];
 	}
 
+	/**
+	 * Return the value from a 4x4 matrix.
+	 * @param i Line
+	 * @param j Column
+	 * @return value Value in the matrix.
+	 */
 	public static int getValue4(int i, int j, int[][] matrix)
 	{
 		if(i >= 4)
@@ -65,6 +91,11 @@ public class Strategies
 		return matrix[i][j];
 	}
 
+	/**
+	 * Return the value from a 8x8 matrix.
+	 * @param move Position in the matrix.
+	 * @return value Value in the matrix.
+	 */
 	public static int getValue8(Move move, int[][] matrix)
 	{
 		int i = move.i;
@@ -73,6 +104,11 @@ public class Strategies
 		return matrix[i][j];
 	}
 
+
+	/*
+	 * Strategies from http://mkorman.org/
+	 */
+	
 	public static int pieceDifference(GameBoard gameBoard, int player)
 	{
 		int opponent = 1 - player;
@@ -106,7 +142,7 @@ public class Strategies
 		int piecesPlayer = gameBoard.getEdgeCoinCount(player);
 		int piecesOpponent = gameBoard.getEdgeCoinCount(opponent);
 
-		return -12 * piecesPlayer + 12 * piecesOpponent;
+		return -13 * piecesPlayer + 13 * piecesOpponent;
 	}
 
 	public static int mobility(GameBoard gameBoard, int player)
@@ -132,11 +168,11 @@ public class Strategies
 		int piecesPlayer = gameBoard.getApartCoinCount(player);
 		int piecesOpponent = gameBoard.getApartCoinCount(opponent);
 
-		if (piecesPlayer < piecesOpponent)
-			return 100 * piecesPlayer / (piecesPlayer + piecesOpponent);
-
 		if (piecesPlayer > piecesOpponent)
-			return -100 * piecesOpponent / (piecesPlayer + piecesOpponent);
+			return -100 * piecesPlayer / (piecesPlayer + piecesOpponent);
+
+		if (piecesPlayer < piecesOpponent)
+			return 100 * piecesOpponent / (piecesPlayer + piecesOpponent);
 
 		return 0;
 	}
@@ -162,7 +198,7 @@ public class Strategies
 				score += coeff * getValue4(i, j, DISCSQUARES);
 			}
 		}
-		
+
 		return score;
 	}
 }
