@@ -72,7 +72,7 @@ public class AI
 			ab = alphabeta(newNode, depth - 1, -minOrMax, optVal);
 			val = ab.value;
 
-			if (val * minOrMax >= optVal * minOrMax)
+			if (val * minOrMax > optVal * minOrMax)
 			{
 				optVal = val;
 				optOp = op;
