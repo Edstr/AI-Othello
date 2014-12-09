@@ -32,6 +32,12 @@ public class AI
 		return ab.move;
 	}
 
+	/**
+	 * Alpha beta pruning algorithm
+	 * @param root Root node
+	 * @param depth How deep the alpha beta has to search.
+	 * @param minOrMax Define if the function 
+	 */
 	private static AlphaBeta alphabeta(Node root, int depth, int minOrMax, int parentValue)
 	{
 		AlphaBeta ab;
@@ -44,9 +50,9 @@ public class AI
 
 
 		if ((depth == 0 || root.isFinal(_player)) && root.getMove() != null)
-			return new AlphaBeta(root.eval(root.getMove(), player, depth), null);
+			return new AlphaBeta(root.eval(root.getMove(), player), null);
 
-		optVal = minOrMax * -1000000;
+		optVal = minOrMax * -1000000; //Integer.MAX_VALUE;
 		for (Move op : root.ops(player))
 		{
 			newNode = root.apply(op, player);

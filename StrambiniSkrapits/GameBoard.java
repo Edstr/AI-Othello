@@ -177,6 +177,38 @@ public class GameBoard {
 		return n;
 	}
 
+	public int getApartCoinCount(int playerID)
+	{
+		int opponent = 1 - playerID;
+		int count = 0;
+		for (int i = 0; i < GameBoard.BOARD_SIZE; i++) {
+			for (int j = 0; j < GameBoard.BOARD_SIZE; j++) {
+				if (getPlayerIDAtPos(i, j) == playerID &&
+					isNotSurroundedBy(i, j, RED_COIN) &&
+					isNotSurroundedBy(i, j, BLUE_COIN)) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
+	public boolean isNotSurroundedBy(int i, int j, int surrounder)
+	{
+		int surrounders = 0;
+
+		surrounders += getPlayerIDAtPos(i - 1, j - 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i - 1, j    ) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i - 1, j + 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i    , j - 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i    , j - 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i + 1, j - 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i + 1, j    ) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i + 1, j    ) == surrounder ? 1 : 0;
+
+		return surrounders == 0;
+	}
+
 	public void displayGameBoard() {
 		System.out.println("************ Game Board ************");
 		System.out.println();
@@ -215,6 +247,8 @@ public class GameBoard {
 	 * @return
 	 */
 	public int getPlayerIDAtPos(int line, int column) {
+		if (line < 0 || line >= BOARD_SIZE || column < 0 || column >= BOARD_SIZE)
+			return NO_COIN;
 		return gameBoard[line][column];
 	}
 
