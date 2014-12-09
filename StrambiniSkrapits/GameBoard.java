@@ -325,7 +325,7 @@ public class GameBoard {
 	 * @param playerID
 	 * @return
 	 */
-	private boolean isMovePossible(int line, int column, int playerID) {
+	public boolean isMovePossible(int line, int column, int playerID) {
 
 		if (gameBoard[line][column] != -1) {
 			return false;

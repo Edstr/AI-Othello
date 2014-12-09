@@ -11,19 +11,19 @@ public class Strategies
 		{ 6,  -3,  4,  0}
 	};
 
-	public final static int[][] RUSHEDGES = {
-		{ 120,  88, -50, -90},
-		{  88, -99, -40, -10},
-		{ -50, -40,   0,   0},
-		{ -90, -10,   0,   0}
-	};
-
 	// http://www.cs.columbia.edu/~evs/ml/hw4EDGAR.html
 	public final static int[][] EDGAR = {
 		{ 64, -8, 8, 8},
 		{ -8, -8, 0, 0},
 		{  8,  0, 0, 0},
 		{  8,  0, 0, 0}
+	};
+
+	public final static int[][] GOEDGES = {
+		{ 32, -99, -8,  8},
+		{-99, -64,  8,  8},
+		{ -8,   8,  0,  0},
+		{  8,   8,  0,  0}
 	};
 
 
