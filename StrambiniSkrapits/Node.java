@@ -47,49 +47,9 @@ public class Node {
 		evaluation += 802 * Strategies.cornerOccupancy(gameBoard, player);
 		evaluation += 382 * Strategies.cornerCloseness(gameBoard, player);
 		evaluation += 78 * Strategies.mobility(gameBoard, player);
-		evaluation += 74 * Strategies.frontierDiscs(gameBoard, player) * 7;
+		evaluation += 74 * Strategies.frontierDiscs(gameBoard, player);
 		evaluation += 10 * Strategies.discSquares(gameBoard, player);
 		return -evaluation;
-
-		/*int piecesPlayer = gameBoard.getCoinCount(player);
-		int piecesOpponent = gameBoard.getCoinCount(opponent);
-
-		if (piecesPlayer > piecesOpponent)
-			return 100 * piecesPlayer / (piecesPlayer + piecesOpponent);
-
-		if (piecesPlayer < piecesOpponent)
-			return -100 * piecesOpponent / (piecesPlayer + piecesOpponent);
-
-		return 0;*/
-
-
-		/*
-		ok niveau 1
-
-		if (gameBoard.getEdgeCoinCount(opponent) == 0)
-			return Strategies.getValue4(move, Strategies.POSITIONAL);
-
-		if (gameBoard.getEdgeCoinCount(opponent) > gameBoard.getEdgeCoinCount(player))
-			return Strategies.getValue4(move, Strategies.GOEDGES);
-
-		return Strategies.getValue4(move, Strategies.EDGAR);
-		*/
-
-
-		/*
-		meilleur général
-
-		if (gameBoard.getEdgeCoinCount(opponent) > gameBoard.getEdgeCoinCount(player))
-			return Strategies.getValue4(move, Strategies.EDGAR);
-
-		return Strategies.getValue4(move, Strategies.GOEDGES);
-		*/
-
-
-		/*if (gameBoard.getEdgeCoinCount(opponent) > gameBoard.getEdgeCoinCount(player))
-			return Strategies.getValue4(move, Strategies.POSITIONAL);
-
-		return Strategies.getValue4(move, Strategies.GOEDGES);*/
 	}
 
 	/**
@@ -98,8 +58,6 @@ public class Node {
 	 */
 	public boolean isFinal(int player)
 	{
-		//return (gameBoard.getCoinCount(player) + gameBoard.getCoinCount(1 - player) == 64 ||
-			//this.ops(player).size() == 0);
 		return this.ops(player).size() == 0;
 	}
 

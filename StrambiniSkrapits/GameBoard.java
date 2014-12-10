@@ -15,6 +15,7 @@ public class GameBoard {
 	public static final int RED_COIN = 0;
 	public static final int BLUE_COIN = 1;
 	public static final int NO_COIN = -1;
+	public static final int INVALID_COIN = -2;
 	public static final int BOARD_SIZE = 8;
 
 	/***
@@ -190,8 +191,7 @@ public class GameBoard {
 		for (int i = 0; i < GameBoard.BOARD_SIZE; i++) {
 			for (int j = 0; j < GameBoard.BOARD_SIZE; j++) {
 				if (getPlayerIDAtPos(i, j) == playerID &&
-					isNotSurroundedBy(i, j, RED_COIN) &&
-					isNotSurroundedBy(i, j, BLUE_COIN)) {
+					isSurroundedBy(i, j, NO_COIN)) {
 					count++;
 				}
 			}
@@ -199,14 +199,41 @@ public class GameBoard {
 		return count;
 	}
 
+	public int getAdjacentsEmpty(int playerID)
+	{
+		int opponent = 1 - playerID;
+		int count = 0;
+		for (int i = 0; i < GameBoard.BOARD_SIZE; i++) {
+			for (int j = 0; j < GameBoard.BOARD_SIZE; j++) {
+				if (getPlayerIDAtPos(i, j) == playerID)
+					count += getSurrounderCount(i, j, NO_COIN);
+			}
+		}
+		return count;
+	}
+
+	/*public int getAdjacentsEmpty(int playerID, int emptyCases)
+	{
+		int opponent = 1 - playerID;
+		int count = 0;
+		for (int i = 0; i < GameBoard.BOARD_SIZE; i++) {
+			for (int j = 0; j < GameBoard.BOARD_SIZE; j++) {
+				if (getPlayerIDAtPos(i, j) == playerID)
+					if (getSurrounderCount(i, j, NO_COIN) == emptyCases)
+						count++;
+			}
+		}
+		return count;
+	}*/
+
 	/**
-	 * Check if a coin isn't surrounded by a type of coin.
+	 * Check if a coin is surrounded by a type of coin.
 	 *
 	 * @param i Line
 	 * @param j Column
 	 * @param surrounder Type of coin
 	 */
-	public boolean isNotSurroundedBy(int i, int j, int surrounder)
+	public boolean isSurroundedBy(int i, int j, int surrounder)
 	{
 		int surrounders = 0;
 
@@ -219,7 +246,23 @@ public class GameBoard {
 		surrounders += getPlayerIDAtPos(i + 1, j    ) == surrounder ? 1 : 0;
 		surrounders += getPlayerIDAtPos(i + 1, j + 1) == surrounder ? 1 : 0;
 
-		return surrounders == 0;
+		return surrounders > 0;
+	}
+
+	public int getSurrounderCount(int i, int j, int surrounder)
+	{
+		int surrounders = 0;
+
+		surrounders += getPlayerIDAtPos(i - 1, j - 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i - 1, j    ) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i - 1, j + 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i    , j - 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i    , j + 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i + 1, j - 1) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i + 1, j    ) == surrounder ? 1 : 0;
+		surrounders += getPlayerIDAtPos(i + 1, j + 1) == surrounder ? 1 : 0;
+
+		return surrounders;
 	}
 
 	public void displayGameBoard() {
@@ -261,7 +304,7 @@ public class GameBoard {
 	 */
 	public int getPlayerIDAtPos(int line, int column) {
 		if (line < 0 || line >= BOARD_SIZE || column < 0 || column >= BOARD_SIZE)
-			return NO_COIN;
+			return INVALID_COIN;
 		return gameBoard[line][column];
 	}
 

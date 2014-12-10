@@ -108,7 +108,7 @@ public class Strategies
 	/*
 	 * Strategies from http://mkorman.org/
 	 */
-	
+
 	public static int pieceDifference(GameBoard gameBoard, int player)
 	{
 		int opponent = 1 - player;
@@ -165,8 +165,8 @@ public class Strategies
 	{
 		int opponent = 1 - player;
 
-		int piecesPlayer = gameBoard.getApartCoinCount(player);
-		int piecesOpponent = gameBoard.getApartCoinCount(opponent);
+		int piecesPlayer = gameBoard.getAdjacentsEmpty(player);
+		int piecesOpponent = gameBoard.getAdjacentsEmpty(opponent);
 
 		if (piecesPlayer > piecesOpponent)
 			return -100 * piecesPlayer / (piecesPlayer + piecesOpponent);
@@ -177,28 +177,49 @@ public class Strategies
 		return 0;
 	}
 
-	public static int discSquares(GameBoard gameBoard, int player)
+	/*public static int frontierDiscs(GameBoard gameBoard, int player)
 	{
 		int opponent = 1 - player;
-		int coeff;
 		int score = 0;
+
+		int piecesPlayer;
+		int piecesOpponent;
+
+		for (int i = 1; i <= 8; i++)
+		{
+			piecesPlayer = gameBoard.getAdjacentsEmpty(player, i);
+			piecesOpponent = gameBoard.getAdjacentsEmpty(opponent, i);
+
+			if (piecesPlayer > piecesOpponent)
+				score += -100 * piecesPlayer / (piecesPlayer + piecesOpponent);
+			if (piecesPlayer < piecesOpponent)
+				score += 100 * piecesOpponent / (piecesPlayer + piecesOpponent);
+		}
+
+		return score;
+	}*/
+
+	public static int discSquares(GameBoard gameBoard, int player)
+	{
+		int scorePlayer = 0;
+		int scoreOpponent = 0;
 
 		for (int i = 0; i < GameBoard.BOARD_SIZE; i++)
 		{
 			for (int j = 0; j < GameBoard.BOARD_SIZE; j++)
 			{
-				coeff = 0;
-
-				if (gameBoard.getPlayerIDAtPos(i, j) == player)
-					coeff = 1;
-
-				if (gameBoard.getPlayerIDAtPos(i, j) == opponent)
-					coeff = -1;
-
-				score += coeff * getValue4(i, j, DISCSQUARES);
+				scorePlayer += getValue4(i, j, DISCSQUARES);
 			}
 		}
 
-		return score;
+		for (int i = 0; i < GameBoard.BOARD_SIZE; i++)
+		{
+			for (int j = 0; j < GameBoard.BOARD_SIZE; j++)
+			{
+				scoreOpponent += -getValue4(i, j, DISCSQUARES);
+			}
+		}
+
+		return scorePlayer - scoreOpponent;
 	}
 }
