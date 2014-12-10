@@ -199,6 +199,11 @@ public class GameBoard {
 		return count;
 	}
 
+	/**
+	 * Return the number of empty cases adjacent to player's.
+	 * @param playerID Player
+	 * @return Number of empty cases.
+	 */
 	public int getAdjacentsEmpty(int playerID)
 	{
 		int opponent = 1 - playerID;

@@ -28,20 +28,6 @@ public class Strategies
 		{  8,  0, 0, 0}
 	};
 
-	public final static int[][] GOCORNERS = {
-		{ 32, -99, -8,  8},
-		{-99, -64,  8,  8},
-		{ -8,   8,  0,  0},
-		{  8,   8,  0,  0}
-	};
-
-	public final static int[][] GOEDGES = {
-		{  32, -64, 16,  16},
-		{ -64, -32, 16,  16},
-		{  16,  16,  0,   0},
-		{  16,  16,  0,   0}
-	};
-
 	// Taken from http://mkorman.org/othello.pdf
 	public final static int[][] DISCSQUARES = {
 		{20, -3, 11,  8},
